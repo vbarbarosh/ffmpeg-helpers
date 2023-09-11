@@ -92,7 +92,7 @@ function __filter_complex(trim, crop, resize, has_audio, has_video)
             out.push(`${streams.join('')}concat=n=${trim.length}:v=1:a=1[tmpv][outa]`);
         }
         else if (has_audio && !has_video) {
-            out.push(`${streams.join('')}concat=n=${trim.length}:a=1[outa]`);
+            out.push(`${streams.join('')}concat=n=${trim.length}:v=0:a=1[outa]`);
         }
         else if (!has_audio && has_video) {
             out.push(`${streams.join('')}concat=n=${trim.length}:v=1[tmpv]`);
@@ -117,7 +117,7 @@ function __filter_complex(trim, crop, resize, has_audio, has_video)
             out.push(`${streams.join('')}concat=n=${trim.length}:v=1[outv]`);
         }
         else if (has_audio && !has_video) {
-            out.push(`${streams.join('')}concat=n=${trim.length}:a=1[outa]`);
+            out.push(`${streams.join('')}concat=n=${trim.length}:v=0:a=1[outa]`);
         }
     }
     return out;

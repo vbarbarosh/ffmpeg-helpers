@@ -4,7 +4,7 @@
   "-i",
   "input.webm",
   "-filter_complex",
-  "[0:a]atrim=start=5:end=10,asetpts=PTS-STARTPTS[0a];\n[0:a]atrim=start=65:end=70,asetpts=PTS-STARTPTS[1a];\n[0:a]atrim=start=125:end=130,asetpts=PTS-STARTPTS[2a];\n[0a][1a][2a]concat=n=3:a=1[outa]",
+  "[0:a]atrim=start=5:end=10,asetpts=PTS-STARTPTS[0a];\n[0:a]atrim=start=65:end=70,asetpts=PTS-STARTPTS[1a];\n[0:a]atrim=start=125:end=130,asetpts=PTS-STARTPTS[2a];\n[0a][1a][2a]concat=n=3:v=0:a=1[outa]",
    "-map",
   "[outa]",
   "a.mkv"

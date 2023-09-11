@@ -1,5 +1,5 @@
 {
-  "probe": {"streams":[{"codec_type":"video","width":1920,"height":1080},{"codec_type":"audio"}],"format":{"duration":"3620.021000"}},
+  "probe": {"streams":[{"codec_type":"audio"}],"format":{"duration":"3620.021000"}},
   "input": "input.webm",
   "output": "a.mkv",
   "trim": [{"start": 5, "end": 10}, {"start": 65, "end": 70}, {"start": 125, "end": 130}]

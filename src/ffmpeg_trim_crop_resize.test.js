@@ -15,8 +15,14 @@ describe('ffmpeg_trim_crop_resize', function () {
             const d = fs_path_dirname(file.pathname);
             const input = await fs_read_json(fs_path_resolve(d, 'input.json'));
             const output = await fs_read_json(fs_path_resolve(d, 'output.json'));
-            const actual = ffmpeg_trim_crop_resize(input);
-            assert.deepStrictEqual(actual, output, d);
+            try {
+                const actual = ffmpeg_trim_crop_resize(input);
+                assert.deepStrictEqual(actual, output, d);
+            }
+            catch (error) {
+                console.log(d);
+                throw error;
+            }
         }
     });
 });

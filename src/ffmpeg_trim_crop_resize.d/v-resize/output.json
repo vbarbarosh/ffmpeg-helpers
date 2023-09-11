@@ -1,0 +1,11 @@
+[
+  "ffmpeg",
+  "-nostdin",
+  "-i",
+  "input.webm",
+  "-filter_complex",
+  "[0:v]scale=400:400,setsar=1[outv]",
+  "-map",
+  "[outv]",
+  "a.mkv"
+]

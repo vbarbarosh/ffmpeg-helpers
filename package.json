@@ -1,6 +1,6 @@
 {
   "name": "@vbarbarosh/ffmpeg-helpers",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A set of helpers for building arguments for ffmpeg binary.",
   "main": "index.js",
   "scripts": {

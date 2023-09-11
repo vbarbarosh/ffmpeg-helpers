@@ -1,4 +1,6 @@
 [
+  "ffmpeg",
+  "-nostdin",
   "-i",
   "input.webm",
   "-filter_complex",

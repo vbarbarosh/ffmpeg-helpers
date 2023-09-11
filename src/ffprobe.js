@@ -1,6 +1,6 @@
 function ffprobe({input})
 {
-    return ['ffprobe', input, '-v', 'quiet', '-print_format', 'json', '-show_format'];
+    return ['ffprobe', input, '-v', 'quiet', '-print_format', 'json', '-show_format', '-show_streams'];
 }
 
-export default ffprobe;
+module.exports = ffprobe;

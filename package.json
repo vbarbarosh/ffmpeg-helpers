@@ -9,7 +9,7 @@
   "author": "Vladimir Barbaros <ffmpeg-helpers@vbarbarosh.com>",
   "license": "ISC",
   "devDependencies": {
-    "@vbarbarosh/node-helpers": "^2.4.0",
+    "@vbarbarosh/node-helpers": "^2.5.0",
     "mocha": "^10.2.0"
   }
 }

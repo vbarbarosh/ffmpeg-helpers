@@ -1,6 +1,6 @@
 function ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize})
 {
-    const out = ['-i', input];
+    const out = ['ffmpeg', '-nostdin', '-i', input];
     const norm = __norm(probe, trim, crop, resize);
     const tmp = __filter_complex(norm.trim, norm.crop, norm.resize);
     if (tmp.length) {
@@ -58,7 +58,7 @@ function __filter_complex(trim, crop, resize)
         streams.push(`[${i}v]`, `[${i}a]`);
         return [
             `[0:v]trim=start=${item.start}:end=${item.end},setpts=PTS-STARTPTS[${i}v]`,
-            `[0:a]trim=start=${item.start}:end=${item.end},setpts=PTS-STARTPTS[${i}a]`,
+            `[0:a]atrim=start=${item.start}:end=${item.end},asetpts=PTS-STARTPTS[${i}a]`,
         ];
     });
     if (crop && resize) {

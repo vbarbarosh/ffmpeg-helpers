@@ -6,7 +6,7 @@ const fs_path_resolve = require('@vbarbarosh/node-helpers/src/fs_path_resolve');
 const fs_read_json = require('@vbarbarosh/node-helpers/src/fs_read_json');
 
 describe('ffmpeg_trim_crop_resize', function () {
-    it('should', async function () {
+    it('should pass tests from ffmpeg_trim_crop_resize.d', async function () {
         const files = await fs_lsr(fs_path_resolve(__dirname, 'ffmpeg_trim_crop_resize.d'));
         for (let file of files) {
             if (file.basename !== 'input.json') {

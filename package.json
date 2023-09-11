@@ -1,15 +1,30 @@
 {
-  "name": "@vbarbarosh/ffmpeg-helpers",
-  "version": "0.1.0",
-  "description": "A set of helpers for building arguments for ffmpeg binary.",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha **/*.test.js"
-  },
-  "author": "Vladimir Barbarosh <ffmpeg-helpers@vbarbarosh.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@vbarbarosh/node-helpers": "^2.5.0",
-    "mocha": "^10.2.0"
-  }
+    "name": "@vbarbarosh/ffmpeg-helpers",
+    "version": "0.1.0",
+    "author": "Vladimir Barbarosh <ffmpeg-helpers@vbarbarosh.com>",
+    "description": "A set of helpers for building arguments for ffmpeg binary.",
+    "files": [
+        "src"
+    ],
+    "scripts": {
+        "test": "mocha **/*.test.js"
+    },
+    "keywords": [
+        "js",
+        "node",
+        "ffmpeg",
+        "helpers"
+    ],
+    "license": "MIT",
+    "devDependencies": {
+        "@vbarbarosh/node-helpers": "^2.5.0",
+        "mocha": "^10.2.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vbarbarosh/ffmpeg-helpers.git"
+    },
+    "bugs": {
+        "url": "https://github.com/vbarbarosh/ffmpeg-helpers/issues"
+    }
 }

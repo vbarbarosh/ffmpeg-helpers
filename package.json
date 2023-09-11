@@ -6,8 +6,8 @@
   "scripts": {
     "test": "mocha **/*.test.js"
   },
-  "author": "Vladimir Barbaros <ffmpeg-helpers@vbarbarosh.com>",
-  "license": "ISC",
+  "author": "Vladimir Barbarosh <ffmpeg-helpers@vbarbarosh.com>",
+  "license": "MIT",
   "devDependencies": {
     "@vbarbarosh/node-helpers": "^2.5.0",
     "mocha": "^10.2.0"

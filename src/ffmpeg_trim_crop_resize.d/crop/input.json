@@ -1,0 +1,11 @@
+{
+  "probe": {"streams":[{"width":1920,"height":1080}],"format":{"duration":"3620.021000"}},
+  "input": "input.webm",
+  "output": "a.mkv",
+  "crop": {
+    "x": 0,
+    "y": 500,
+    "w": 1920,
+    "h": 600
+  }
+}

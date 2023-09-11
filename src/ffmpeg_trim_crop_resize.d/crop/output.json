@@ -1,0 +1,11 @@
+[
+  "-i",
+  "input.webm",
+  "-filter_complex",
+  "[0:v]crop=1920:600:0:500[outv]",
+  "-map",
+  "[outv]",
+  "-map",
+  "[outa]",
+  "a.mkv"
+]

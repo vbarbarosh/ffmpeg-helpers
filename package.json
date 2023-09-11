@@ -1,0 +1,15 @@
+{
+  "name": "@vbarbarosh/ffmpeg-helpers",
+  "version": "1.0.0",
+  "description": "A set of helpers for building arguments for ffmpeg binary.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha **/*.test.js"
+  },
+  "author": "Vladimir Barbaros <ffmpeg-helpers@vbarbarosh.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@vbarbarosh/node-helpers": "^2.4.0",
+    "mocha": "^10.2.0"
+  }
+}

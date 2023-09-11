@@ -1,0 +1,11 @@
+[
+  "-i",
+  "input.webm",
+  "-filter_complex",
+  "[0:v]trim=start=5:end=10,setpts=PTS-STARTPTS[0v];\n[0:a]trim=start=5:end=10,setpts=PTS-STARTPTS[0a];\n[0:v]trim=start=65:end=70,setpts=PTS-STARTPTS[1v];\n[0:a]trim=start=65:end=70,setpts=PTS-STARTPTS[1a];\n[0:v]trim=start=125:end=130,setpts=PTS-STARTPTS[2v];\n[0:a]trim=start=125:end=130,setpts=PTS-STARTPTS[2a];\n[0v][0a][1v][1a][2v][2a]concat=n=3:v=1:a=1[outv][outa]",
+  "-map",
+  "[outv]",
+  "-map",
+  "[outa]",
+  "a.mkv"
+]

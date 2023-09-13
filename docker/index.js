@@ -6,7 +6,6 @@ const ffmpeg_trim_crop_resize = require('../src/ffmpeg_trim_crop_resize');
 const ffprobe = require('../src/ffprobe');
 const fs_path_resolve = require('@vbarbarosh/node-helpers/src/fs_path_resolve');
 const fs_tempdir = require('@vbarbarosh/node-helpers/src/fs_tempdir');
-const path = require('path');
 const shell = require('@vbarbarosh/node-helpers/src/shell');
 const shell_json = require('@vbarbarosh/node-helpers/src/shell_json');
 
@@ -15,8 +14,6 @@ cli(main);
 async function main()
 {
     const app = express();
-
-    app.use(express.static(path.resolve(__dirname, 'static')));
 
     express_routes(app, [
         {req: 'GET /', fn: help},

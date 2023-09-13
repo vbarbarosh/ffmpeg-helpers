@@ -2,16 +2,48 @@ function ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize})
 {
     const out = ['ffmpeg', '-nostdin', '-i', input];
     const norm = __norm(probe, trim, crop, resize);
-    const tmp = __filter_complex(norm.trim, norm.crop, norm.resize, norm.has_audio, norm.has_video);
-    if (tmp.length) {
-        out.push('-filter_complex', tmp.join(';\n'));
-        if (norm.has_video) {
-            out.push('-map', '[outv]');
-        }
-        if (norm.has_audio) {
-            out.push('-map', '[outa]');
-        }
+
+    const expr = (norm.has_video ? 'v' : '-')
+        + (norm.has_audio ? 'a' : '-')
+        + (norm.trim.length ? 't' : '-')
+        + (norm.crop ? 'c' : '-')
+        + (norm.resize ? 'r' : '-');
+
+    switch (expr) {
+    case 'v-t--':
+    case 'v-tc-':
+    case 'v-t-r':
+    case 'v-tcr':
+        out.push('-filter_complex', __filter_complex(norm).join(';\n'), '-map', '[outv]');
+        break;
+    case '-at--':
+    case '-atc-':
+    case '-at-r':
+    case '-atcr':
+        out.push('-filter_complex', __filter_complex(norm).join(';\n'), '-map', '[outa]');
+        break;
+    case 'vat--':
+    case 'vatc-':
+    case 'vat-r':
+    case 'vatcr':
+        out.push('-filter_complex', __filter_complex(norm).join(';\n'), '-map', '[outv]', '-map', '[outa]');
+        break;
+    case 'v--c-': out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y}`); break;
+    case 'v---r': out.push('-vf', `scale=${resize.w}:${resize.h},setsar=1`); break;
+    case 'v--cr': out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y},scale=${resize.w}:${resize.h},setsar=1`); break;
+    case 'va---': break;
+    case 'va-c-': out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y}`, '-c:a', 'copy'); break;
+    case 'va--r': out.push('-vf', `scale=${resize.w}:${resize.h},setsar=1`, '-c:a', 'copy'); break;
+    case 'va-cr': out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y},scale=${resize.w}:${resize.h},setsar=1`, '-c:a', 'copy'); break;
+    case '-a---': break;
+    case '-a-c-': break;
+    case '-a--r': break;
+    case '-a-cr': break;
+    case 'v----': break;
+    default:
+        throw new Error(`Invalid input: [${expr}]`);
     }
+
     out.push(output);
     return out;
 }
@@ -45,7 +77,7 @@ function __norm(probe, trim, crop, resize)
     };
 }
 
-function __filter_complex(trim, crop, resize, has_audio, has_video)
+function __filter_complex({trim, crop, resize, has_audio, has_video})
 {
     if (!trim.length && has_video) {
         const out = [];

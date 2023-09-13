@@ -10,8 +10,8 @@ RUN echo 'Installing ffmpeg...' \
     && apt install -y ffmpeg \
     && ffmpeg -version
 
-WORKDIR /app
 COPY .. /app
+WORKDIR /app
 RUN npm install
 
 USER node

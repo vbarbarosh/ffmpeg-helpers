@@ -1,3 +1,4 @@
+const body_parser = require('body-parser');
 const cli = require('@vbarbarosh/node-helpers/src/cli');
 const express = require('express');
 const express_routes = require('@vbarbarosh/express-helpers/src/express_routes');
@@ -14,6 +15,9 @@ cli(main);
 async function main()
 {
     const app = express();
+
+    app.use(body_parser.json());
+    app.use(body_parser.urlencoded({extended: false}));
 
     express_routes(app, [
         {req: 'GET /', fn: help},
@@ -40,18 +44,18 @@ async function ffmpeg(req, res)
 {
     await fs_tempdir(async function (d) {
         // https://test-videos.co.uk/bigbuckbunny/mp4-h264
-        const input_url = 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_30MB.mp4';
+        const input_url = req.body.input_url || 'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_30MB.mp4';
+        const trim = req.body.trim || null;
+        const crop = req.body.crop || null;
+        const resize = req.body.resize || null;
         const output = fs_path_resolve(d, 'a.mp4');
         const input = fs_path_resolve(d, 'input');
         log(`Downloading ${input_url}...`);
-        await shell(['curl', '-sfS', input_url, '-o', input]);
+        await shell(['curl', '-sfS', input_url, '-o', input], {timeout: 30000});
         log(`Reading metadata...`);
         const probe = await shell_json(ffprobe({input}));
-        const trim = null;//[];
-        const crop = null;//{};
-        const resize = {w: 400, h: 300};
         log(`Rendering mp4...`);
-        await shell(ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize}));
+        await shell(ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize}), {timeout: 30000});
         log('Sending mp4 back...');
         res.sendFile(output);
         log('Done');

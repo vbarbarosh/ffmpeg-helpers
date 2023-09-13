@@ -17,7 +17,7 @@ async function main()
     const app = express();
 
     app.use(body_parser.json());
-    app.use(body_parser.urlencoded({extended: false}));
+    app.use(body_parser.urlencoded({extended: true}));
 
     express_routes(app, [
         {req: 'GET /', fn: help},

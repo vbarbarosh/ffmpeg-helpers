@@ -1,5 +1,6 @@
 const body_parser = require('body-parser');
 const cli = require('@vbarbarosh/node-helpers/src/cli');
+const cors = require('cors');
 const express = require('express');
 const express_routes = require('@vbarbarosh/express-helpers/src/express_routes');
 const express_run = require('@vbarbarosh/express-helpers/src/express_run');
@@ -16,16 +17,23 @@ async function main()
 {
     const app = express();
 
+    app.use(cors());
     app.use(body_parser.json());
     app.use(body_parser.urlencoded({extended: true}));
 
     express_routes(app, [
+        {req: 'OPTIONS *', fn: options},
         {req: 'GET /', fn: help},
         {req: 'POST /', fn: ffmpeg},
         {req: 'ALL *', fn: page404},
     ]);
 
     await express_run(app, 3000, '0.0.0.0');
+}
+
+async function options(req, res)
+{
+    res.send();
 }
 
 async function page404(req, res)
@@ -57,7 +65,7 @@ async function ffmpeg(req, res)
         log(`Rendering mp4...`);
         await shell(ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize}), {timeout: 30000});
         log('Sending mp4 back...');
-        res.sendFile(output);
+        res.download(output);
         log('Done');
     });
 }

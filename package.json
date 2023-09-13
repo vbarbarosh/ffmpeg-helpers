@@ -19,6 +19,7 @@
     "devDependencies": {
         "@vbarbarosh/express-helpers": "github:vbarbarosh/express-helpers",
         "@vbarbarosh/node-helpers": "^2.5.0",
+        "cors": "^2.8.5",
         "express": "^4.18.2",
         "mocha": "^10.2.0"
     },

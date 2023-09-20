@@ -1,4 +1,4 @@
-A set of helpers for building arguments for ffmpeg binary.
+A set of helpers for working with `ffmpeg` binary.
 
 * `ffprobe({input})`
 * `ffmpeg_trim_crop_resize({input, output, trim, crop, resize})`

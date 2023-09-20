@@ -2,9 +2,9 @@ const child_process = require('child_process');
 const stream_ffmpeg_progress = require('./stream_ffmpeg_progress');
 const stream_lines = require('./stream_lines');
 
-async function shell_ffmpeg_progress(args, progress_fn)
+async function shell_ffmpeg_progress(args, {progress_fn, ...options})
 {
-    const proc = child_process.spawn(args[0], ['-v', 'error', '-progress', '-', ...args.slice(1)], {stdio: ['pipe', 'pipe', 'pipe']});
+    const proc = child_process.spawn(args[0], ['-v', 'error', '-progress', '-', ...args.slice(1)], {...options, stdio: ['pipe', 'pipe', 'pipe']});
 
     let end_stdout = function () {};
     let end_stderr = function () {};

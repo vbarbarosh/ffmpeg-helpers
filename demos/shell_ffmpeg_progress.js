@@ -13,8 +13,10 @@ async function main()
     const probe = await shell_json(ffprobe({input}));
     const trim = [{start: 5, end: 10}, {start: 65, end: 70}, {start: 125, end: 130}];
     const expected_duration_us = trim.length ? 1000000*trim.reduce((a,v) => a + v.end - v.start, 0) : 1000000*probe.format.duration;
-    await shell_ffmpeg_progress(ffmpeg_trim_crop_resize({probe, input, output: 'a.mp4', trim}).concat('-y'), function (v) {
-        console.log(`${v.out_time_us} of ${expected_duration_us} ${(v.out_time_us/expected_duration_us*100).toFixed(2)}% ${v.fps}fps`);
+    await shell_ffmpeg_progress(ffmpeg_trim_crop_resize({probe, input, output: 'a.mp4', trim}).concat('-y'), {
+        progress_fn: function (v) {
+            console.log(`${v.out_time_us} of ${expected_duration_us} ${(v.out_time_us/expected_duration_us*100).toFixed(2)}% ${v.fps}fps`);
+        },
     });
     console.log('done');
 }

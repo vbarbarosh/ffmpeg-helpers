@@ -56,6 +56,7 @@ async function ffmpeg(req, res)
         const trim = req.body.trim || null;
         const crop = req.body.crop || null;
         const resize = req.body.resize || null;
+        const mute = req.body.mute || false;
         const output = fs_path_resolve(d, 'a.mp4');
         const input = fs_path_resolve(d, 'input');
         log(`Downloading ${input_url}...`);
@@ -63,7 +64,7 @@ async function ffmpeg(req, res)
         log(`Reading metadata...`);
         const probe = await shell_json(ffprobe({input}));
         log(`Rendering mp4...`);
-        await shell(ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize}), {timeout: 30000});
+        await shell(ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize, mute}), {timeout: 30000});
         log('Sending mp4 back...');
         res.download(output);
         log('Done');

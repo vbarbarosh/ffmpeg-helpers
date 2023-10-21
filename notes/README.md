@@ -85,3 +85,15 @@ ffmpeg -i input.webm -y -filter_complex '
 [outv]crop=w=1920:h=600:x=0:y=500,scale=400:400,setsar=1[outv2]' \
 -map [outv2] -map [outa] a.mkv -y
 ```
+
+### ffmpeg-mute-audio
+
+```
+ffmpeg -i input.mkv -c copy -an video.mkv
+```
+
+### ffmpeg-mute-video
+
+```
+ffmpeg -i input.mkv -c copy -vn audio.mkv
+```

@@ -17,7 +17,7 @@
     ],
     "license": "MIT",
     "devDependencies": {
-        "@vbarbarosh/express-helpers": "github:vbarbarosh/express-helpers",
+        "@vbarbarosh/express-helpers": "^2.1.0",
         "@vbarbarosh/node-helpers": "^3.0.0",
         "cors": "^2.8.5",
         "express": "^4.18.2",

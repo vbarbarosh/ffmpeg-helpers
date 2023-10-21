@@ -1,7 +1,7 @@
 A set of helpers for working with `ffmpeg` binary.
 
 * `ffprobe({input})`
-* `ffmpeg_trim_crop_resize({input, output, trim, crop, resize})`
+* `ffmpeg_trim_crop_resize({input, output, trim, crop, resize, mute})`
 * `shell_ffmpeg_progress(args, {progress_fn})`
 
 ### demos/ffprobe.js

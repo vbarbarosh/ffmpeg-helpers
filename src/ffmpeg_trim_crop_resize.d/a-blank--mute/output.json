@@ -1,0 +1,3 @@
+[
+  "ffmpeg", "-nostdin", "-i", "input.webm", "-an", "a.mkv"
+]

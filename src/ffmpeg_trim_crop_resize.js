@@ -1,7 +1,7 @@
-function ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize})
+function ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize, mute})
 {
     const out = ['ffmpeg', '-nostdin', '-i', input];
-    const norm = __norm(probe, trim, crop, resize);
+    const norm = __norm(probe, trim, crop, resize, mute);
 
     const expr = (norm.has_video ? 'v' : '-')
         + (norm.has_audio ? 'a' : '-')
@@ -20,26 +20,66 @@ function ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize})
     case '-atc-':
     case '-at-r':
     case '-atcr':
-        out.push('-filter_complex', __filter_complex(norm).join(';\n'), '-map', '[outa]');
+        if (norm.mute) {
+            out.push('-an');
+        }
+        else {
+            out.push('-filter_complex', __filter_complex(norm).join(';\n'), '-map', '[outa]');
+        }
         break;
     case 'vat--':
     case 'vatc-':
     case 'vat-r':
     case 'vatcr':
-        out.push('-filter_complex', __filter_complex(norm).join(';\n'), '-map', '[outv]', '-map', '[outa]');
+        if (norm.mute) {
+            out.push('-filter_complex', __filter_complex(norm).join(';\n'), '-map', '[outv]');
+        }
+        else {
+            out.push('-filter_complex', __filter_complex(norm).join(';\n'), '-map', '[outv]', '-map', '[outa]');
+        }
         break;
     case 'v--c-': out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y}`); break;
     case 'v---r': out.push('-vf', `scale=${resize.w}:${resize.h},setsar=1`); break;
     case 'v--cr': out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y},scale=${resize.w}:${resize.h},setsar=1`); break;
-    case 'va---': break;
-    case 'va-c-': out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y}`, '-c:a', 'copy'); break;
-    case 'va--r': out.push('-vf', `scale=${resize.w}:${resize.h},setsar=1`, '-c:a', 'copy'); break;
-    case 'va-cr': out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y},scale=${resize.w}:${resize.h},setsar=1`, '-c:a', 'copy'); break;
-    case '-a---': break;
-    case '-a-c-': break;
-    case '-a--r': break;
-    case '-a-cr': break;
-    case 'v----': break;
+    case 'va---':
+        if (norm.mute) {
+            out.push('-an');
+        }
+        break;
+    case 'va-c-':
+        if (norm.mute) {
+            out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y}`, '-an');
+        }
+        else {
+            out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y}`, '-c:a', 'copy');
+        }
+        break;
+    case 'va--r':
+        if (norm.mute) {
+            out.push('-vf', `scale=${resize.w}:${resize.h},setsar=1`, '-an');
+        }
+        else {
+            out.push('-vf', `scale=${resize.w}:${resize.h},setsar=1`, '-c:a', 'copy');
+        }
+        break;
+    case 'va-cr':
+        if (norm.mute) {
+            out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y},scale=${resize.w}:${resize.h},setsar=1`, '-an');
+        }
+        else {
+            out.push('-vf', `crop=${crop.w}:${crop.h}:${crop.x}:${crop.y},scale=${resize.w}:${resize.h},setsar=1`, '-c:a', 'copy');
+        }
+        break;
+    case '-a---':
+    case '-a-c-':
+    case '-a--r':
+    case '-a-cr':
+        if (norm.mute) {
+            out.push('-an');
+        }
+        break;
+    case 'v----':
+        break;
     default:
         throw new Error(`Invalid input: [${expr}]`);
     }
@@ -48,7 +88,7 @@ function ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize})
     return out;
 }
 
-function __norm(probe, trim, crop, resize)
+function __norm(probe, trim, crop, resize, mute)
 {
     const duration = probe.format.duration;
     const video_stream = probe.streams.find(v => v.codec_type === 'video');
@@ -74,10 +114,11 @@ function __norm(probe, trim, crop, resize)
             w: Math.min(w, Math.max(0, resize.w)),
             h: Math.min(h, Math.max(0, resize.h)),
         },
+        mute: !!mute,
     };
 }
 
-function __filter_complex({trim, crop, resize, has_audio, has_video})
+function __filter_complex({trim, crop, resize, has_audio, has_video, mute})
 {
     if (!trim.length && has_video) {
         const out = [];
@@ -99,14 +140,14 @@ function __filter_complex({trim, crop, resize, has_audio, has_video})
 
     const streams = [];
     const out = trim.flatMap(function (item, i) {
-        if (has_audio && has_video) {
+        if ((has_audio && !mute) && has_video) {
             streams.push(`[${i}v]`, `[${i}a]`);
             return [
                 `[0:v]trim=start=${item.start}:end=${item.end},setpts=PTS-STARTPTS[${i}v]`,
                 `[0:a]atrim=start=${item.start}:end=${item.end},asetpts=PTS-STARTPTS[${i}a]`,
             ];
         }
-        if (has_audio) {
+        if ((has_audio && !mute)) {
             streams.push(`[${i}a]`);
             return [
                 `[0:a]atrim=start=${item.start}:end=${item.end},asetpts=PTS-STARTPTS[${i}a]`,
@@ -120,13 +161,13 @@ function __filter_complex({trim, crop, resize, has_audio, has_video})
         }
     });
     if (crop || resize) {
-        if (has_audio && has_video) {
+        if ((has_audio && !mute) && has_video) {
             out.push(`${streams.join('')}concat=n=${trim.length}:v=1:a=1[tmpv][outa]`);
         }
-        else if (has_audio && !has_video) {
+        else if ((has_audio && !mute) && !has_video) {
             out.push(`${streams.join('')}concat=n=${trim.length}:v=0:a=1[outa]`);
         }
-        else if (!has_audio && has_video) {
+        else if ((!has_audio || mute) && has_video) {
             out.push(`${streams.join('')}concat=n=${trim.length}:v=1[tmpv]`);
         }
         if (has_video) {
@@ -142,13 +183,13 @@ function __filter_complex({trim, crop, resize, has_audio, has_video})
         }
     }
     else {
-        if (has_audio && has_video) {
+        if ((has_audio && !mute) && has_video) {
             out.push(`${streams.join('')}concat=n=${trim.length}:v=1:a=1[outv][outa]`);
         }
-        else if (!has_audio && has_video) {
+        else if ((!has_audio || mute) && has_video) {
             out.push(`${streams.join('')}concat=n=${trim.length}:v=1[outv]`);
         }
-        else if (has_audio && !has_video) {
+        else if ((has_audio && !mute) && !has_video) {
             out.push(`${streams.join('')}concat=n=${trim.length}:v=0:a=1[outa]`);
         }
     }

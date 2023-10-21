@@ -1,0 +1,10 @@
+[
+  "ffmpeg",
+  "-nostdin",
+  "-i",
+  "input.webm",
+  "-vf",
+  "crop=1920:600:0:500",
+  "-an",
+  "a.mkv"
+]

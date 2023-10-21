@@ -1,0 +1,9 @@
+[
+  "ffmpeg",
+  "-nostdin",
+  "-i",
+  "input.webm",
+  "-vf",
+  "scale=400:400,setsar=1",
+  "a.mkv"
+]

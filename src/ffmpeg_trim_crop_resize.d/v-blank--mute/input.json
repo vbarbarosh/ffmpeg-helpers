@@ -1,0 +1,6 @@
+{
+  "probe": {"streams":[{"codec_type":"video","width":1920,"height":1080}],"format":{"duration":"3620.021000"}},
+  "input": "input.webm",
+  "output": "a.mkv",
+  "mute": true
+}

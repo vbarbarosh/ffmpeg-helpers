@@ -50,13 +50,7 @@ async function shell_ffmpeg_progress(args, {probe, duration_us, progress_fn, use
         }
         if (!ffmpeg_progress) {
             p.update(0);
-            if (has_total) {
-                user_friendly_status(`${format_percents(0)} | ~ duration=${format_seconds(p.duration)}`);
-
-            }
-            else {
-                user_friendly_status(`~ duration=${format_seconds(p.duration)}`);
-            }
+            user_friendly_status(`~ duration=${format_seconds(p.duration)}`);
             return;
         }
         p.update(ffmpeg_progress.out_time_us);

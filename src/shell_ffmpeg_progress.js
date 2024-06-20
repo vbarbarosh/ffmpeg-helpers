@@ -13,6 +13,7 @@ async function shell_ffmpeg_progress(args, {probe, duration_us, progress_fn, use
         : probe ? make_progress(1000000*probe.format.duration)
         : make_progress();
 
+    const has_total = is_number_gt(p.total, 0);
     const timer = setInterval(tick, 1000);
 
     let ffmpeg_progress = null;
@@ -49,13 +50,24 @@ async function shell_ffmpeg_progress(args, {probe, duration_us, progress_fn, use
         }
         if (!ffmpeg_progress) {
             p.update(0);
-            user_friendly_status(`${format_percents(0)} | ~ duration=${format_seconds(p.duration)}`);
+            if (has_total) {
+                user_friendly_status(`${format_percents(0)} | ~ duration=${format_seconds(p.duration)}`);
+
+            }
+            else {
+                user_friendly_status(`~ duration=${format_seconds(p.duration)}`);
+            }
             return;
         }
         p.update(ffmpeg_progress.out_time_us);
         const eta_str = is_number_gt(p.eta, 0) ? format_seconds(p.eta) : '~';
         const bitrate = ffmpeg_progress.bitrate === 'N/A' ? '~' : ffmpeg_progress.bitrate;
-        user_friendly_status(`${format_percents(p.percents)} | ${ffmpeg_progress.fps}fps ${bitrate} ETA ${eta_str} duration=${format_seconds(p.duration)}`);
+        if (has_total) {
+            user_friendly_status(`${format_percents(p.percents)} | ${ffmpeg_progress.fps}fps ${bitrate} ETA ${eta_str} duration=${format_seconds(p.duration)}`);
+        }
+        else {
+            user_friendly_status(`${ffmpeg_progress.fps}fps ${bitrate} ETA ~ duration=${format_seconds(p.duration)}`);
+        }
     }
 }
 

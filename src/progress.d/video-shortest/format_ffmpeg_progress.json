@@ -1,0 +1,13 @@
+[
+  "size=1KB",
+  "size=512KB frame=14 fps=13.99 bitrate=9680.1kbits/s time=00:00:00.433333 speed=0.433x",
+  "size=1.0MB frame=37 fps=24.62 bitrate=7190.6kbits/s time=00:00:01.166667 speed=0.776x",
+  "size=1.50MB frame=57 fps=28.46 bitrate=6863.6kbits/s time=00:00:01.833333 speed=0.915x",
+  "size=2.0MB frame=77 fps=30.69 bitrate=6711.0kbits/s time=00:00:02.500000 speed=0.997x",
+  "size=2.25MB frame=97 fps=32.24 bitrate=5960.4kbits/s time=00:00:03.166667 speed=1.05x",
+  "size=2.75MB frame=117 fps=33.34",
+  "size=3.25MB frame=137 fps=34.17",
+  "size=3.50MB frame=146 fps=32.38",
+  "size=3.75MB frame=162 fps=32.34",
+  "size=4.08MB frame=176 fps=33.41 bitrate=5907.0kbits/s time=00:00:05.800000 speed=1.1x"
+]

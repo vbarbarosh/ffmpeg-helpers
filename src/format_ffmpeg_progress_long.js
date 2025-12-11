@@ -1,6 +1,6 @@
 const format_bytes = require('@vbarbarosh/node-helpers/src/format_bytes');
 
-function format_ffmpeg_progress(ffmpeg_progress)
+function format_ffmpeg_progress_long(ffmpeg_progress)
 {
     if (!ffmpeg_progress) {
         return '~';
@@ -19,4 +19,4 @@ function format_ffmpeg_progress(ffmpeg_progress)
     return tmp.join(' ') || '~';
 }
 
-module.exports = format_ffmpeg_progress;
+module.exports = format_ffmpeg_progress_long;

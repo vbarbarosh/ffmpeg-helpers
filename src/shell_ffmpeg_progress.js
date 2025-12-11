@@ -1,5 +1,5 @@
 const child_process = require('child_process');
-const format_ffmpeg_progress = require('./format_ffmpeg_progress');
+const format_ffmpeg_progress_long = require('./format_ffmpeg_progress_long');
 const stream = require('stream');
 const stream_each = require('@vbarbarosh/node-helpers/src/stream_each');
 const stream_ffmpeg_progress = require('./stream_ffmpeg_progress');
@@ -17,7 +17,7 @@ async function shell_ffmpeg_progress(args, {user_friendly_status = s => console.
     ]);
 
     function progress_fn(ffmpeg_progress) {
-        user_friendly_status(format_ffmpeg_progress(ffmpeg_progress));
+        user_friendly_status(format_ffmpeg_progress_long(ffmpeg_progress));
     }
 }
 

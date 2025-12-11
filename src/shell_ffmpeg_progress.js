@@ -4,7 +4,7 @@ const stream = require('stream');
 const stream_each = require('@vbarbarosh/node-helpers/src/stream_each');
 const stream_ffmpeg_progress = require('./stream_ffmpeg_progress');
 
-async function shell_ffmpeg_progress(args, {user_friendly_status = s => console.log(s), ...options})
+async function shell_ffmpeg_progress(args, {user_friendly_status = s => console.log(s), expected_duration_ms, ...options})
 {
     const proc = child_process.spawn(args[0], ['-v', 'error', '-progress', '-', ...args.slice(1)], {...options, stdio: ['pipe', 'pipe', 'pipe']});
     let last_out_time = null;
@@ -20,6 +20,7 @@ async function shell_ffmpeg_progress(args, {user_friendly_status = s => console.
     ]);
 
     function progress_fn(ffmpeg_progress) {
+        ffmpeg_progress.expected_duration_ms = expected_duration_ms;
         ffmpeg_progress.out_time ??= last_out_time;
         ffmpeg_progress.out_time_ms ??= last_out_time_ms;
         ffmpeg_progress.out_time_us ??= last_out_time_us;

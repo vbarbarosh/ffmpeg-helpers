@@ -1,5 +1,6 @@
 const assert = require('assert');
-const has_alpha_channel = require('./has_alpha_channel');
+const ffprobe_has_alpha_channel = require('./ffprobe_has_alpha_channel');
+const fs_read_json = require('@vbarbarosh/node-helpers/src/fs_read_json');
 
 // https://stackblitz.com/edit/stackblitz-starters-bp4oyc
 //
@@ -48,21 +49,21 @@ const has_alpha_channel = require('./has_alpha_channel');
 // ];
 
 const cases = [
-    {input: 'var/BCG 1 Hour Countdown (LED Frame Counter 180,000 Frames - 50 FPS) Remix BBC Arabic Countdown [ZSOdXPoMuu8].webm', expected: false},
-    {input: 'var/dancer1.webm', expected: true},
-    {input: 'var/exoplayer.mp4', expected: false},
-    {input: 'var/exoplayer.webm', expected: true},
-    {input: 'var/movie-hevc.mov', expected: false},
-    {input: 'var/movie-webm.webm', expected: true},
-    {input: 'var/orb-1.mov', expected: false},
-    {input: 'var/orb_VP9.webm', expected: true},
-    {input: 'var/soccer1.webm', expected: true},
+    {input: 'src/ffprobe.d/BCG 1 Hour Countdown (LED Frame Counter 180,000 Frames - 50 FPS) Remix BBC Arabic Countdown [ZSOdXPoMuu8].webm.json', expected: false},
+    {input: 'src/ffprobe.d/dancer1.webm.json', expected: true},
+    {input: 'src/ffprobe.d/exoplayer.mp4.json', expected: false},
+    {input: 'src/ffprobe.d/exoplayer.webm.json', expected: true},
+    {input: 'src/ffprobe.d/movie-hevc.mov.json', expected: false},
+    {input: 'src/ffprobe.d/movie-webm.webm.json', expected: true},
+    {input: 'src/ffprobe.d/orb-1.mov.json', expected: false},
+    {input: 'src/ffprobe.d/orb_VP9.webm.json', expected: true},
+    {input: 'src/ffprobe.d/soccer1.webm.json', expected: true},
 ];
 
-describe('has_alpha_channel', function () {
+describe('ffprobe_has_alpha_channel', function () {
     cases.forEach(function (case_item) {
         it(case_item.input, async function () {
-            const actual = await has_alpha_channel(case_item.input);
+            const actual = ffprobe_has_alpha_channel(await fs_read_json(case_item.input));
             assert.deepStrictEqual(actual, case_item.expected);
         })
     });

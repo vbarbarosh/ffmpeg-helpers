@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# http://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin
+# http://redsymbol.net/articles/unofficial-bash-strict-mode
+set -o nounset -o errexit -o pipefail
+
+set -x
+
+script=`realpath $0`
+scriptdir=`dirname $script`
+scriptname=`basename $script`
+
+cd $scriptdir/../../../var
+
+yt-dlp ZSOdXPoMuu8
+wget -O movie-hevc.mov https://rotato.netlify.app/alpha-demo/movie-hevc.mov
+wget -O movie-webm.webm https://rotato.netlify.app/alpha-demo/movie-webm.webm
+wget -O soccer1.webm https://simpl.info/videoalpha/video/soccer1.webm
+wget -O dancer1.webm https://simpl.info/videoalpha/video/dancer1.webm
+wget -O exoplayer.webm https://github.com/google/ExoPlayer/assets/2509966/42ed1c10-e052-499b-b35f-ba5d453c2d6c
+wget -O exoplayer.mp4 https://github.com/google/ExoPlayer/assets/2509966/21e07d80-ca1b-4dc9-8ea4-5b62612f21f0
+wget -O orb_VP9.webm https://storage.yandexcloud.net/delete-this-test/orb_VP9.webm
+wget -O orb-1.mov https://storage.yandexcloud.net/delete-this-test/orb-1.mov
+
+function ff()
+{
+    ffprobe "$1" -v quiet -print_format json -show_format -show_streams > ../src/ffprobe.d/"$1".json
+}
+
+ff 'BCG 1 Hour Countdown (LED Frame Counter 180,000 Frames - 50 FPS) Remix BBC Arabic Countdown [ZSOdXPoMuu8].webm'
+ff dancer1.webm
+ff exoplayer.mp4
+ff exoplayer.webm
+ff movie-hevc.mov
+ff movie-webm.webm
+ff orb-1.mov
+ff orb_VP9.webm
+ff soccer1.webm

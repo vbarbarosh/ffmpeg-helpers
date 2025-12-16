@@ -62,7 +62,7 @@ async function ffmpeg(req, res)
         log(`Downloading ${input_url}...`);
         await shell(['curl', '-sfS', input_url, '-o', input], {timeout: 30000});
         log(`Reading metadata...`);
-        const probe = await shell_json(ffprobe({input}));
+        const probe = await shell_json(ffprobe(input));
         log(`Rendering mp4...`);
         await shell(ffmpeg_trim_crop_resize({probe, input, output, trim, crop, resize, mute}), {timeout: 30000});
         log('Sending mp4 back...');

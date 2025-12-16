@@ -1,4 +1,4 @@
-function ffprobe({input})
+function ffprobe(input)
 {
     return ['ffprobe', input, '-v', 'quiet', '-print_format', 'json', '-show_format', '-show_streams'];
 }

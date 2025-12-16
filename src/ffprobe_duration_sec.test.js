@@ -7,6 +7,7 @@ const cases = [
     {input: 'src/ffprobe.d/dancer1.webm.json', expected: 62.833},
     {input: 'src/ffprobe.d/exoplayer.mp4.json', expected: 2},
     {input: 'src/ffprobe.d/exoplayer.webm.json', expected: 2},
+    {input: 'src/ffprobe.d/flower.webm.json', expected: 5.059},
     {input: 'src/ffprobe.d/movie-hevc.mov.json', expected: 9.016667},
     {input: 'src/ffprobe.d/movie-webm.webm.json', expected: 9.017},
     {input: 'src/ffprobe.d/orb-1.mov.json', expected: 33.3333},

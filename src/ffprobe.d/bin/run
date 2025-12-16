@@ -21,6 +21,7 @@ wget -O exoplayer.webm https://github.com/google/ExoPlayer/assets/2509966/42ed1c
 wget -O exoplayer.mp4 https://github.com/google/ExoPlayer/assets/2509966/21e07d80-ca1b-4dc9-8ea4-5b62612f21f0
 wget -O orb_VP9.webm https://storage.yandexcloud.net/delete-this-test/orb_VP9.webm
 wget -O orb-1.mov https://storage.yandexcloud.net/delete-this-test/orb-1.mov
+wget -O flower.webm https://91045dcb-67b0-4cba-8c1d-07ba4564d292.mdnplay.dev/shared-assets/videos/flower.webm
 
 function ff()
 {
@@ -36,3 +37,4 @@ ff movie-webm.webm
 ff orb-1.mov
 ff orb_VP9.webm
 ff soccer1.webm
+ff flower.webm

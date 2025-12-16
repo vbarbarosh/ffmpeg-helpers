@@ -53,6 +53,7 @@ const cases = [
     {input: 'src/ffprobe.d/dancer1.webm.json', expected: true},
     {input: 'src/ffprobe.d/exoplayer.mp4.json', expected: false},
     {input: 'src/ffprobe.d/exoplayer.webm.json', expected: true},
+    {input: 'src/ffprobe.d/flower.webm.json', expected: false},
     {input: 'src/ffprobe.d/movie-hevc.mov.json', expected: false},
     {input: 'src/ffprobe.d/movie-webm.webm.json', expected: true},
     {input: 'src/ffprobe.d/orb-1.mov.json', expected: false},
